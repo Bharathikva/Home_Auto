@@ -1,0 +1,687 @@
+<!-- Preloader -->
+<div class="preloader">
+  <div class="loader">
+    <div class="loader-outter"></div>
+    <div class="loader-inner"></div>
+
+    <div class="indicator">
+      <svg width="16px" height="12px">
+        <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+        <polyline id="front" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Header Area -->
+<header class="header">
+  <!-- Header Inner -->
+  <div class="header-inner">
+    <div class="container">
+      <div class="inner">
+        <div class="row justify-content-between">
+          <div class="col-lg-3 col-md-3 col-12">
+            <!-- Start Logo -->
+            <div class="logo">
+              <a href=""
+                ><img src="./assets/img/logo.png" alt="#" width="60px"
+              /></a>
+            </div>
+            <!-- End Logo -->
+            <!-- Mobile Nav -->
+            <div class="mobile-nav"></div>
+            <!-- End Mobile Nav -->
+          </div>
+
+          <div class="col" style="text-align: end">
+            <div class="get-quote">
+              <img src="/assets/img/Whatapp.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ End Header Inner -->
+</header>
+<!-- End Header Area -->
+
+<section class="clients2 overlay">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 bg-white" style="border-radius: 10px">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="py-4">
+              <h2>Gemicates Home Automation</h2>
+              <!-- <img src="./assets/img/section-img.png" alt="#" /> -->
+            </div>
+            <mat-stepper
+              [linear]="isLinear"
+              #stepper
+              style="background: transparent"
+            >
+              <mat-step label="House Size">
+                <div style="height: 275px">
+                  <div class="title mb-2">
+                    <h3 style="color: white">House Size</h3>
+                  </div>
+                  <div class="row pb-2" style="text-align: center">
+                    <div class="col-md-4 p-2" *ngFor="let size of sizes">
+                      <button
+                        class="custom-button"
+                        matStepperNext
+                        (click)="selectRoom(size.id)"
+                        [class.active]="selectedRoom === size.id"
+                      >
+                        <img
+                          src="/assets/icons/{{ size.name }}.svg"
+                          alt="{{ size.name }}"
+                        />
+                        <span>{{ size.name }}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <button class="btn btn-primary" matStepperNext>Next</button>
+                </div>
+              </mat-step>
+              <mat-step label="Automated Area">
+                <div style="height: 275px">
+                  <div class="title mb-2">
+                    <h3 style="color: white">Automated Area</h3>
+                  </div>
+                  <div class="row" style="text-align: center">
+                    <div class="col-md-6" *ngFor="let area of areas">
+                      <button
+                        class="col m-2 myButton"
+                        matStepperNext
+                        (click)="selectType(area.id)"
+                        [class.active]="selectedType === area.id"
+                      >
+                        <span>{{ area.name }}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <button class="btn btn-primary mr-2" matStepperPrevious>
+                    Back
+                  </button>
+                  <button class="btn btn-primary" matStepperNext>Next</button>
+                </div>
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>Plan</ng-template>
+                <div style="height: 275px">
+                  <div class="title mb-2">
+                    <h3 style="color: white">Select Plan</h3>
+                  </div>
+                  <div class="row" style="text-align: center">
+                    <div class="col-md-6" *ngFor="let plan of plans">
+                      <button
+                        class="col m-2 myButton"
+                        (click)="selectPlan(plan.id)"
+                        [class.active]="selectedPlan === plan.id"
+                      >
+                        <span>{{ plan.name }}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <button class="btn btn-primary mr-2" matStepperPrevious>
+                    Back
+                  </button>
+                  <button
+                    class="btn btn-primary mr-2"
+                    (click)="stepper.reset()"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </mat-step>
+            </mat-stepper>
+          </div>
+          <div class="col-md-6 p-4 hide" style="background-color: #1a76d1">
+            <mat-stepper
+              [linear]="isLinear"
+              #stepper2
+              style="background: transparent"
+              class="mt-3"
+            >
+              <mat-step>
+                <div class="bg-white" style="border-radius: 10px">
+                  <div class="p-5">
+                    <div>
+                      <div
+                        class="row pb-4 fee"
+                        style="justify-content: space-between"
+                      >
+                        <h4>
+                          <i
+                            class="fas fa-money-bill pr-2"
+                            style="color: #008000"
+                          ></i>
+                          Subscription Fee
+                        </h4>
+                        <h4>
+                          <i class="fas fa-rupee-sign"></i>
+                          {{ planDetails?.subscription_fee || 0 }}
+                        </h4>
+                      </div>
+                      <div
+                        class="row pb-4 fee"
+                        style="justify-content: space-between"
+                      >
+                        <h4>
+                          <i class="fas fa-shield-alt pr-2"></i> Security
+                          Deposit
+                        </h4>
+                        <h4>
+                          <i class="fas fa-rupee-sign"></i>
+                          {{ planDetails?.security_deposit || 0 }}
+                        </h4>
+                      </div>
+                      <div
+                        class="row pb-4 fee"
+                        style="justify-content: space-between"
+                      >
+                        <h4>
+                          <i class="fas fa-tools pr-2"></i> Installation Charges
+                        </h4>
+                        <h4>
+                          <i class="fas fa-rupee-sign"></i>
+                          {{ planDetails?.installation_charges || 0 }}
+                        </h4>
+                      </div>
+                      <div>
+                        <div
+                          class="row pb-2 fee"
+                          style="justify-content: space-between"
+                        >
+                          <h4>Sub total</h4>
+                          <h4>
+                            <i class="fas fa-rupee-sign"></i>
+                            {{ this.subTotal || 0 }}
+                          </h4>
+                        </div>
+                        <div
+                          class="row pb-4 fee"
+                          style="justify-content: space-between"
+                        >
+                          <h6>
+                            <i class="fas fa-cog pr-2"></i> Tax and Charges
+                          </h6>
+                          <h6 style="color: purple">
+                            <i class="fas fa-rupee-sign"></i>
+                            {{ planDetails?.tax_and_other_charges || 0 }}
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="row fee pb-2"
+                      style="justify-content: space-between"
+                    >
+                      <h4>Total Amount</h4>
+                      <h4>
+                        <i class="fas fa-rupee-sign"></i> {{ this.total || 0 }}
+                      </h4>
+                    </div>
+                  </div>
+                  <button
+                    class="btn m-2"
+                    matStepperNext
+                    style="width: -webkit-fill-available"
+                  >
+                    <i class="fas fa-credit-card"></i> Enter Details and Pay
+                    {{ planDetails?.pay_amount || 0 }}
+                  </button>
+                </div>
+              </mat-step>
+
+              <mat-step>
+                <form [formGroup]="userForm" (ngSubmit)="UserFormSubmit()">
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12">
+                      <div class="form-group">
+                        <input
+                          name="name"
+                          formControlName="name"
+                          type="text"
+                          placeholder="Name"
+                        />
+                        <mat-error
+                          *ngIf="
+                            userForm.controls['name'].touched &&
+                            userForm.controls['name'].invalid
+                          "
+                        >
+                          <div
+                            *ngIf="
+                              userForm.controls['name'].hasError('required')
+                            "
+                          >
+                            Name is required
+                          </div>
+                          <div
+                            *ngIf="
+                              userForm.controls['name'].hasError('pattern')
+                            "
+                          >
+                            Please enter only letters (a-z or A-Z).
+                          </div>
+                        </mat-error>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                      <div class="form-group">
+                        <input
+                          name="email"
+                          formControlName="email"
+                          type="email"
+                          placeholder="Email"
+                        />
+                        <mat-error
+                          *ngIf="
+                            userForm.controls['email'].touched &&
+                            userForm.controls['email'].invalid
+                          "
+                        >
+                          <div
+                            *ngIf="
+                              userForm.controls['email'].hasError('required')
+                            "
+                          >
+                            Email is required
+                          </div>
+                          <div
+                            *ngIf="
+                              userForm.controls['email'].hasError('pattern')
+                            "
+                          >
+                            Email is not valid
+                          </div>
+                        </mat-error>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                      <div class="form-group">
+                        <input
+                          name="phone"
+                          formControlName="phone"
+                          type="text"
+                          placeholder="Phone"
+                        />
+                        <mat-error
+                          *ngIf="
+                            userForm.controls['phone'].touched &&
+                            userForm.controls['phone'].invalid
+                          "
+                        >
+                          <div
+                            *ngIf="
+                              userForm.controls['phone'].hasError('required')
+                            "
+                          >
+                            Phone Number is required
+                          </div>
+                          <div
+                            *ngIf="
+                              userForm.controls['phone'].hasError('pattern')
+                            "
+                          >
+                            Phone number invalid.
+                          </div>
+                          <div
+                            *ngIf="
+                              userForm.controls['phone'].hasError(
+                                'phoneNumberStartsWith00'
+                              )
+                            "
+                          >
+                            Phone number invalid.
+                          </div>
+                        </mat-error>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                      <div class="form-group">
+                        <textarea
+                          name="address"
+                          formControlName="address"
+                          type="text"
+                          placeholder="Address"
+                          rows="2"
+                        ></textarea>
+                        <mat-error
+                          *ngIf="
+                            userForm.controls['address'].touched &&
+                            userForm.controls['address'].invalid &&
+                            userForm.controls['address'].hasError('required')
+                          "
+                        >
+                          Address is required
+                        </mat-error>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pt-3">
+                    <button
+                      class="pay"
+                      type="submit"
+                      style="width: -webkit-fill-available"
+                    >
+                      pay {{ planDetails?.pay_amount || 0 }}
+                    </button>
+
+                    <div class="pt-3">
+                      <button class="btn btn-primary mr-2" matStepperPrevious>
+                        Back
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </mat-step>
+
+              <!-- Subscription Fee, Security Deposit, Installation Charges -->
+            </mat-stepper>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start clients -->
+<div class="overlay">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-12">
+        <div class="owl-carousel clients-slider">
+          <div class="single-clients invert-white">
+            <img src="./assets/img/1.png" alt="#" />
+          </div>
+          <div class="single-clients">
+            <img src="./assets/img/2.png" alt="#" />
+          </div>
+          <div class="single-clients">
+            <img src="./assets/img/3.png" alt="#" />
+          </div>
+          <div class="single-clients">
+            <img src="./assets/img/4.png" alt="#" />
+          </div>
+          <div class="single-clients">
+            <img src="./assets/img/5.png" alt="#" />
+          </div>
+          <div class="single-clients">
+            <img src="./assets/img/6.png" alt="#" />
+          </div>
+          <div class="single-clients">
+            <img src="./assets/img/7.png" alt="#" />
+          </div>
+          <div class="single-clients">
+            <img src="./assets/img/8.png" alt="#" />
+          </div>
+          <div class="single-clients">
+            <img src="./assets/img/9.png" alt="#" />
+          </div>
+          <div class="single-clients">
+            <img src="./assets/img/10.png" alt="#" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--/Ens clients -->
+
+<!-- Start Blog Area -->
+<section class="blog section" id="blog">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title">
+          <h2>Stay Updated with Our Latest Home Automation News</h2>
+          <img src="./assets/img/section-img.png" alt="#" />
+          <p>
+            Explore the latest developments in home automation technology and
+            solutions.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-12">
+        <!-- Single Blog -->
+        <div class="single-news">
+          <div class="news-head">
+            <img src="/assets/img/blog1.1.jpg" alt="#" />
+          </div>
+          <div class="news-body">
+            <div class="news-content">
+              <div class="date">10 Feb, 2023</div>
+              <h2>
+                <a href="blog-single.html"
+                  >Introducing Our Latest Smart <br />
+                  Thermostat.</a
+                >
+              </h2>
+              <p class="text">
+                Discover the innovative features of our newest smart thermostat,
+                designed to optimize comfort and energy efficiency in your home.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- End Single Blog -->
+      </div>
+      <div class="col-lg-6 col-md-6 col-12">
+        <!-- Single Blog -->
+        <div class="single-news">
+          <div class="news-head">
+            <img src="/assets/img/blog2.2.jpg" alt="#" />
+          </div>
+          <div class="news-body">
+            <div class="news-content">
+              <div class="date">18 Mar, 2023</div>
+              <h2>
+                <a href="blog-single.html"
+                  >Revolutionizing Home Security with Our Smart Lock System.</a
+                >
+              </h2>
+              <p class="text">
+                Learn about our cutting-edge smart lock system, offering
+                advanced security features and convenient access control for
+                your home.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- End Single Blog -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- End Blog Area -->
+
+<!-- Footer Area -->
+<footer id="footer" class="footer">
+  <!-- Footer Top -->
+  <div class="footer-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-12">
+          <div class="single-footer">
+            <h2>About Us</h2>
+            <p>
+              Lorem ipsum dolor sit am consectetur adipisicing elit do eiusmod
+              tempor incididunt ut labore dolore magna.
+            </p>
+            <!-- Social -->
+            <ul class="social">
+              <li>
+                <a href="#"><i class="icofont-facebook"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="icofont-google-plus"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="icofont-twitter"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="icofont-vimeo"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="icofont-pinterest"></i></a>
+              </li>
+            </ul>
+            <!-- End Social -->
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12">
+          <div class="single-footer f-link">
+            <h2>Quick Links</h2>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-12">
+                <ul>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i
+                      >Home</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i>About
+                      Us</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i
+                      >Services</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i>Our
+                      Cases</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i>Other
+                      Links</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-6 col-md-6 col-12">
+                <ul>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i
+                      >Consuling</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i
+                      >Finance</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i
+                      >Testimonials</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i
+                      >FAQ</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-caret-right" aria-hidden="true"></i
+                      >Contact Us</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12">
+          <div class="single-footer">
+            <h2>Open Hours</h2>
+            <p>
+              Lorem ipsum dolor sit ame consectetur adipisicing elit do eiusmod
+              tempor incididunt.
+            </p>
+            <ul class="time-sidual">
+              <li class="day">Monday - Fridayp <span>8.00-20.00</span></li>
+              <li class="day">Saturday <span>9.00-18.30</span></li>
+              <li class="day">Monday - Thusday <span>9.00-15.00</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12">
+          <div class="single-footer">
+            <h2>Newsletter</h2>
+            <p>
+              subscribe to our newsletter to get allour news in your inbox..
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+            </p>
+            <form
+              action="mail/mail.php"
+              method="get"
+              target="_blank"
+              class="newsletter-inner"
+            >
+              <input
+                name="email"
+                placeholder="Email Address"
+                class="common-input"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Your email address'"
+                required=""
+                type="email"
+              />
+              <button class="button">
+                <i class="icofont icofont-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ End Footer Top -->
+
+  <!-- Copyright -->
+  <div class="copyright">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+          <div class="copyright-content">
+            <p>
+              © Copyright 2018 | All Rights Reserved by
+              <a href="" target="_blank">.com</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ End Copyright -->
+</footer>
